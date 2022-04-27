@@ -154,12 +154,37 @@ class GlApp {
         
         // draw all models
         for (let i = 0; i < this.scene.models.length; i ++) {
+            let currentModel = this.scene.models[i];
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             
             //
             // TODO: properly select shader here
             //
             let selected_shader = 'emissive';
+            if(this.algorithm === 'gouraud') { // gouraud
+                console.log(currentModel.shader);
+                if(currentModel.shader === 'texture') { // texture
+                    console.log("GOURAUD TEXTURE");
+                    selected_shader = "gouraud_texture";
+                } else { // color or assumed color
+                    console.log("GOURAUD COLOR");
+                    selected_shader = "gouraud_color";
+                }
+            } else if (this.algorithm === 'phong') { // phong
+                console.log("PHONG");
+                if(currentModel.shader === 'texture') { // texture
+                    console.log("PHONG TEXTURE");
+                    selected_shader = "phong_texture";
+                } else { // color or assumed color
+                    console.log("PHONG COLOR");
+                    selected_shader = "phong_color";
+                }
+            } else {
+                console.log("EMISSIVE - FOR TESTING");
+                selected_shader = "emissive";
+            }
+
+            
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
