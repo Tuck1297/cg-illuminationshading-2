@@ -157,9 +157,6 @@ class GlApp {
             let currentModel = this.scene.models[i];
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             
-            //
-            // TODO: properly select shader here
-            //
             let selected_shader = 'emissive';
             if(this.algorithm === 'gouraud') { // gouraud
                 console.log(currentModel.shader);
