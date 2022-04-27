@@ -3,7 +3,7 @@
 ## 3D Illumination and Shading starter code using the HTML5 WebGL2 API
 
 ### Illumination and Shading (to earn a C: 45 pts)
-- [x] Implement Gouraud shading: 20 pts
+- [] Implement Gouraud shading: 20 pts
   - Shaders: gouraud_color.vert / gouraud_color.frag
   - Only need to handle first point light source
 - [] Implement Phong shading: 20 pts
