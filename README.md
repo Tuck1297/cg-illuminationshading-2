@@ -6,7 +6,7 @@
 - [x] Implement Gouraud shading: 20 pts
   - Shaders: gouraud_color.vert / gouraud_color.frag
   - Only need to handle first point light source
-- [] Implement Phong shading: 20 pts
+- [x] Implement Phong shading: 20 pts
   - Shaders: phong_color.vert / phong_color.frag
   - Only need to handle first point light source
 - [] Create your own custom model type (beyond the provided plane, cube, and sphere): 5 pts
