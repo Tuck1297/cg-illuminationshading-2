@@ -95,17 +95,13 @@ class GlApp {
 
         // create models - plane, cube, sphere, and custom
         this.vertex_array.plane = createPlaneVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                  this.vertex_normal_attrib,
-                                                                  this.vertex_texcoord_attrib);
+                                                                  this.vertex_normal_attrib, this.vertex_texcoord_attrib);
         this.vertex_array.cube = createCubeVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                this.vertex_normal_attrib,
-                                                                this.vertex_texcoord_attrib);
+                                                                this.vertex_normal_attrib, this.vertex_texcoord_attrib);
         this.vertex_array.sphere = createSphereVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                    this.vertex_normal_attrib,
-                                                                    this.vertex_texcoord_attrib);
+                                                                    this.vertex_normal_attrib, this.vertex_texcoord_attrib);
         this.vertex_array.custom = createCustomVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                    this.vertex_normal_attrib,
-                                                                    this.vertex_texcoord_attrib);
+                                                                    this.vertex_normal_attrib, this.vertex_texcoord_attrib);
 
         // initialize projection matrix with a 45deg field of view
         let fov = 30.0 * (Math.PI / 180.0);
@@ -157,31 +153,23 @@ class GlApp {
             let currentModel = this.scene.models[i];
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             
-            let selected_shader = 'emissive';
+            let selected_shader;
             if(this.algorithm === 'gouraud') { // gouraud
-                console.log(currentModel.shader);
                 if(currentModel.shader === 'texture') { // texture
-                    console.log("GOURAUD TEXTURE");
                     selected_shader = "gouraud_texture";
                 } else { // color or assumed color
-                    console.log("GOURAUD COLOR");
                     selected_shader = "gouraud_color";
                 }
             } else if (this.algorithm === 'phong') { // phong
-                console.log("PHONG");
                 if(currentModel.shader === 'texture') { // texture
-                    console.log("PHONG TEXTURE");
                     selected_shader = "phong_texture";
                 } else { // color or assumed color
-                    console.log("PHONG COLOR");
                     selected_shader = "phong_color";
                 }
             } else {
-                console.log("EMISSIVE - FOR TESTING");
                 selected_shader = "emissive";
             }
 
-            
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
@@ -196,6 +184,9 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.projection_matrix, false, this.projection_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.view_matrix, false, this.view_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
             
             //
             // TODO: bind proper texture and set uniform (if shader is a textured one)
