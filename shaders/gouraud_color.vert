@@ -16,6 +16,8 @@ uniform mat4 model_matrix;
 uniform mat4 view_matrix;
 uniform mat4 projection_matrix;
 
+uniform int lights;
+
 out vec3 ambient;
 out vec3 diffuse;
 out vec3 specular;
