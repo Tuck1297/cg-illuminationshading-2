@@ -1,4 +1,4 @@
-const {mat4, vec2, vec3, vec4} = glMatrix;
+const { mat4, vec2, vec3, vec4 } = glMatrix;
 
 class GlApp {
     constructor(canvas_id, width, height, scene) {
@@ -51,12 +51,12 @@ class GlApp {
         let emissive_fs = this.getFile('shaders/emissive.frag');
 
         Promise.all([gouraud_color_vs, gouraud_color_fs, gouraud_texture_vs, gouraud_texture_fs,
-                     phong_color_vs, phong_color_fs, phong_texture_vs, phong_texture_fs,
-                     emissive_vs, emissive_fs])
-        .then((shaders) => this.loadAllShaders(shaders))
-        .catch((error) => this.getFileError(error));
+            phong_color_vs, phong_color_fs, phong_texture_vs, phong_texture_fs,
+            emissive_vs, emissive_fs])
+            .then((shaders) => this.loadAllShaders(shaders))
+            .catch((error) => this.getFileError(error));
     }
-    
+
     loadAllShaders(shaders) {
         this.shader.gouraud_color = this.createShaderProgram(shaders[0], shaders[1]);
         this.shader.gouraud_texture = this.createShaderProgram(shaders[2], shaders[3]);
@@ -66,7 +66,7 @@ class GlApp {
 
         this.initializeGlApp();
     }
-    
+
     createShaderProgram(vert_source, frag_source) {
         // Compile shader program
         let program = glslCreateShaderProgram(this.gl, vert_source, frag_source);
@@ -81,8 +81,8 @@ class GlApp {
 
         // Get list of uniforms available in shaders
         let uniforms = glslGetShaderProgramUniforms(this.gl, program);
-        
-        return {program: program, uniforms: uniforms};
+
+        return { program: program, uniforms: uniforms };
     }
 
     initializeGlApp() {
@@ -94,24 +94,24 @@ class GlApp {
         this.gl.enable(this.gl.DEPTH_TEST);
 
         // create models - plane, cube, sphere, and custom
-        this.vertex_array.plane = createPlaneVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                  this.vertex_normal_attrib,
-                                                                  this.vertex_texcoord_attrib);
-        this.vertex_array.cube = createCubeVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                this.vertex_normal_attrib,
-                                                                this.vertex_texcoord_attrib);
-        this.vertex_array.sphere = createSphereVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                    this.vertex_normal_attrib,
-                                                                    this.vertex_texcoord_attrib);
-        this.vertex_array.custom = createCustomVertexArray(this.gl, this.vertex_position_attrib, 
-                                                                    this.vertex_normal_attrib,
-                                                                    this.vertex_texcoord_attrib);
+        this.vertex_array.plane = createPlaneVertexArray(this.gl, this.vertex_position_attrib,
+            this.vertex_normal_attrib,
+            this.vertex_texcoord_attrib);
+        this.vertex_array.cube = createCubeVertexArray(this.gl, this.vertex_position_attrib,
+            this.vertex_normal_attrib,
+            this.vertex_texcoord_attrib);
+        this.vertex_array.sphere = createSphereVertexArray(this.gl, this.vertex_position_attrib,
+            this.vertex_normal_attrib,
+            this.vertex_texcoord_attrib);
+        this.vertex_array.custom = createCustomVertexArray(this.gl, this.vertex_position_attrib,
+            this.vertex_normal_attrib,
+            this.vertex_texcoord_attrib);
 
         // initialize projection matrix with a 45deg field of view
         let fov = 30.0 * (Math.PI / 180.0);
         let aspect = this.canvas.width / this.canvas.height;
         mat4.perspective(this.projection_matrix, fov, aspect, 0.1, 100.0);
-        
+
         // initialize view matrix based on scene's camera location / direction
         let cam_pos = this.scene.camera.position;
         let cam_target = this.scene.camera.target;
@@ -151,19 +151,16 @@ class GlApp {
     render() {
         // delete previous frame (reset both framebuffer and z-buffer)
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-        
+
         // draw all models
-        for (let i = 0; i < this.scene.models.length; i ++) {
+        for (let i = 0; i < this.scene.models.length; i++) {
             let currentModel = this.scene.models[i];
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
-            
-            //
-            // TODO: properly select shader here
-            //
-            let selected_shader = 'emissive';
-            if(this.algorithm === 'gouraud') { // gouraud
-                console.log(currentModel.shader);
-                if(currentModel.shader === 'texture') { // texture
+            //console.log(this.scene.camera.position);
+            var selected_shader = 'emissive';
+            if (this.algorithm === 'gouraud') { // gouraud
+                //console.log(currentModel.shader);
+                if (currentModel.shader === 'texture') { // texture
                     console.log("GOURAUD TEXTURE");
                     selected_shader = "gouraud_texture";
                 } else { // color or assumed color
@@ -172,7 +169,7 @@ class GlApp {
                 }
             } else if (this.algorithm === 'phong') { // phong
                 console.log("PHONG");
-                if(currentModel.shader === 'texture') { // texture
+                if (currentModel.shader === 'texture') { // texture
                     console.log("PHONG TEXTURE");
                     selected_shader = "phong_texture";
                 } else { // color or assumed color
@@ -184,7 +181,7 @@ class GlApp {
                 selected_shader = "emissive";
             }
 
-            
+
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
@@ -196,9 +193,47 @@ class GlApp {
             glMatrix.mat4.scale(this.model_matrix, this.model_matrix, this.scene.models[i].size);
 
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.material_color, this.scene.models[i].material.color);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.material_specular, this.scene.models[i].material.specular);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.projection_matrix, false, this.projection_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.view_matrix, false, this.view_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
+
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
+             
+            this.gl.uniform1f(this.shader[selected_shader].uniforms.lights, parseFloat(this.scene.light.point_lights.length));
+            
+            // add all light sources to an array buffer
+            
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
+            // console.log("SINGLE:","POSITION",this.scene.light.point_lights[0].position,"COLOR",this.scene.light.point_lights[0].color);
+
+            let array_position = [];
+            let array_color = []; 
+            // pass into shaders all the light data as one huge array and not an array of arrays
+            // this.scene.light.point_lights.length
+            for (let i = 0; i < 1; i++) { // go through all of the lights
+                let currentPointLight = this.scene.light.point_lights[i];
+                for (let j = 0; j < 3; j++) { // go through light data of current point light
+                    // array_position.push(parseFloat(currentPointLight.position[j]));
+                    // array_color.push(parseFloat(currentPointLight.color[j]));
+                    array_position.push(currentPointLight.position[j]);
+                    array_color.push(currentPointLight.color[j]);
+                }
+                // console.log("LOOP","POSITION",array_position,"COLOR",array_color);
+            }
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position_array, array_position);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color_array, array_color);
+            console.log(parseFloat(this.scene.light.point_lights.length));
+
+             
+           
+
+            // need to load all of my uniform values to my shader from here
+            
+            this.gl.uniform1f(this.shader[selected_shader].uniforms.material_shininess, this.scene.models[i].material.shininess);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
+            //console.log(this.scene.models[i].material.shininess)
             
             //
             // TODO: bind proper texture and set uniform (if shader is a textured one)
@@ -208,15 +243,15 @@ class GlApp {
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
             this.gl.bindVertexArray(null);
         }
+        
 
         // draw all light sources
-        for (let i = 0; i < this.scene.light.point_lights.length; i ++) {
+        for (let i = 0; i < this.scene.light.point_lights.length; i++) {
             this.gl.useProgram(this.shader['emissive'].program);
 
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.light.point_lights[i].position);
             glMatrix.mat4.scale(this.model_matrix, this.model_matrix, glMatrix.vec3.fromValues(0.1, 0.1, 0.1));
-
 
             this.gl.uniform3fv(this.shader['emissive'].uniforms.material_color, this.scene.light.point_lights[i].color);
             this.gl.uniformMatrix4fv(this.shader['emissive'].uniforms.projection_matrix, false, this.projection_matrix);
@@ -232,10 +267,10 @@ class GlApp {
     updateScene(scene) {
         // update scene
         this.scene = scene;
-        
+
         // set the background color
         this.gl.clearColor(this.scene.background[0], this.scene.background[1], this.scene.background[2], 1.0);
-        
+
         // update view matrix based on camera properties
         let cam_pos = this.scene.camera.position;
         let cam_target = this.scene.camera.target;
@@ -257,12 +292,12 @@ class GlApp {
     getFile(url) {
         return new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
-            req.onreadystatechange = function() {
+            req.onreadystatechange = function () {
                 if (req.readyState === 4 && req.status === 200) {
                     resolve(req.response);
                 }
                 else if (req.readyState === 4) {
-                    reject({url: req.responseURL, status: req.status});
+                    reject({ url: req.responseURL, status: req.status });
                 }
             };
             req.open('GET', url, true);
