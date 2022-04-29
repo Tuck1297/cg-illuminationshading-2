@@ -34,20 +34,22 @@ void main() {
     // Diffuse Light Calculations
     vec3 frag_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
     vec3 L = normalize(light_position-frag_pos);
-    vec3 N = normalize(vertex_normal); // need to transpose the inverse of the model matrix
-    float diffuse_calculation = max(dot(N, L), 0.0);
+    vec3 Normal = mat3(transpose(inverse(model_matrix))) *vertex_normal;
+    vec3 N = normalize(Normal); 
     
+    float diffuse_calculation = max(dot(N, L), 0.0);
     diffuse = diffuse_calculation * light_color;
+    //diffuse = clamp(diffuse, 0.0, 1.0);
     
     // TODO: investigate specular light behavior when light is close to object
 
     // Specular Light Calculations
-    vec3 R = 2.0 * max(dot(N, L), 0.0) * (N-L);
-    vec3 V = normalize(camera_position-vertex_position);
-    
-    // specular = light_color * pow(max(dot(V, R),0.0), material_shininess);
-    specular = light_color * pow(dot(V, R), material_shininess);
-    specular = clamp(specular, 0.0, 1.0);
+    vec3 V = normalize(camera_position-frag_pos);
+    vec3 R = normalize(2.0 * max(dot(N, L), 0.0) * N-L);
+
+     specular = light_color * pow(max(dot(V, R),0.0), material_shininess);
+    //specular = light_color * pow(dot(V, R), material_shininess);
+    //specular = clamp(specular, 0.0, 1.0);
 
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
 }
