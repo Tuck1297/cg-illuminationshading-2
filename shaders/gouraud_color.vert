@@ -38,6 +38,8 @@ void main() {
     float diffuse_calculation = max(dot(N, L), 0.0);
     
     diffuse = diffuse_calculation * light_color;
+    
+    // TODO: investigate specular light behavior when light is close to object
 
     // Specular Light Calculations
     vec3 R = 2.0 * max(dot(N, L), 0.0) * (N-L);
