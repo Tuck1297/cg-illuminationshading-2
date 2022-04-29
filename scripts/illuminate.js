@@ -206,7 +206,7 @@ class GlApp {
             let array_color = []; 
             // pass into shaders all the light data as one huge array and not an array of arrays
             // this.scene.light.point_lights.length
-            for (let i = 0; i < 1; i++) { // go through all of the lights
+            for (let i = 0; i < this.scene.light.point_lights.length; i++) { // go through all of the lights
                 let currentPointLight = this.scene.light.point_lights[i];
                 for (let j = 0; j < 3; j++) { // go through light data of current point light
                     // array_position.push(parseFloat(currentPointLight.position[j]));
@@ -214,7 +214,7 @@ class GlApp {
                     array_position.push(currentPointLight.position[j]);
                     array_color.push(currentPointLight.color[j]);
                 }
-                // console.log("LOOP","POSITION",array_position,"COLOR",array_color);
+                 //console.log("LOOP","POSITION",array_position,"COLOR",array_color);
             }
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position_array, array_position);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color_array, array_color);

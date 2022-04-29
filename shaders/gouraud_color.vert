@@ -34,7 +34,7 @@ void main() {
     // Diffuse Light Calculations
     vec3 frag_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
     vec3 L = normalize(light_position-frag_pos);
-    vec3 N = normalize(vertex_normal);
+    vec3 N = normalize(vertex_normal); // need to transpose the inverse of the model matrix
     float diffuse_calculation = max(dot(N, L), 0.0);
     
     diffuse = diffuse_calculation * light_color;
@@ -48,23 +48,5 @@ void main() {
     specular = clamp(specular, 0.0, 1.0);
 
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
-
-    //ambient = light_ambient;
-
-    //vec3 L = light_position - vertex_position;
-    //L = normalize(L);
-
-    //diffuse = light_color * dot(vertex_normal, L);
-
-    //vec3 V = camera_position - vertex_position;
-    //V = normalize(V);
-    //vec3 R = reflect(L, vertex_normal);
-    //R = normalize(R);
-    
-    //specular = light_color * pow(dot(R, V), material_shininess);
-
-    //ambient = clamp(ambient, 0.0, 1.0);
-    //diffuse = clamp(diffuse, 0.0, 1.0);
-    //specular = clamp(specular, 0.0, 1.0);
 }
 
