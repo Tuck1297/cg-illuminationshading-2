@@ -68,7 +68,7 @@ vec3 light_color_test = light_array[1].color;
 
     // Multiple Light Source Algorithm 
     // Implementing equation found at: https://www.geeksforgeeks.org/phong-model-specular-reflection-in-computer-graphics/
-    
+    // Additional resource: https://www.cs.ubc.ca/~tmm/courses/314-16/slides/lighting.pdf
     vec3 diffuse_sum;
     vec3 specular_sum; 
 
