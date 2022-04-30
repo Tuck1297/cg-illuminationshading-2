@@ -156,10 +156,10 @@ class GlApp {
         for (let i = 0; i < this.scene.models.length; i++) {
             let currentModel = this.scene.models[i];
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
-            
+
             let selected_shader;
-            if(this.algorithm === 'gouraud') { // gouraud
-                if(currentModel.shader === 'texture') { // texture
+            if (this.algorithm === 'gouraud') { // gouraud
+                if (currentModel.shader === 'texture') { // texture
                     selected_shader = "gouraud_texture";
                 } else { // color or assumed color
                     selected_shader = "gouraud_color";
@@ -193,42 +193,55 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
 
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
-             
-            this.gl.uniform1f(this.shader[selected_shader].uniforms.lights, parseFloat(this.scene.light.point_lights.length));
-            
+
+            this.gl.uniform1i(this.shader[selected_shader].uniforms.lights, this.scene.light.point_lights.length);
+
             // add all light sources to an array buffer
-            
+
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
             // console.log("SINGLE:","POSITION",this.scene.light.point_lights[0].position,"COLOR",this.scene.light.point_lights[0].color);
+            console.log("individual", this.scene.light.point_lights[0].position, this.scene.light.point_lights[0].color)
+            //let array_position = [];
+            //let array_color = [];
 
-            let array_position = [];
-            let array_color = []; 
-            // pass into shaders all the light data as one huge array and not an array of arrays
-            // this.scene.light.point_lights.length
+            let light_array = [];
+            // pass into shaders all the light data into one array where each array index points to a struct that 
+            // holds the position and color data for each light
             for (let i = 0; i < this.scene.light.point_lights.length; i++) { // go through all of the lights
                 let currentPointLight = this.scene.light.point_lights[i];
-                for (let j = 0; j < 3; j++) { // go through light data of current point light
-                    // array_position.push(parseFloat(currentPointLight.position[j]));
-                    // array_color.push(parseFloat(currentPointLight.color[j]));
-                    array_position.push(currentPointLight.position[j]);
-                    array_color.push(currentPointLight.color[j]);
-                }
-                 //console.log("LOOP","POSITION",array_position,"COLOR",array_color);
-            }
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position_array, array_position);
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color_array, array_color);
-            console.log(parseFloat(this.scene.light.point_lights.length));
+                // create a struct holding each color and position value for every index
+                // Code referenced: https://www.cs.uregina.ca/Links/class-info/315/WebGL/Lab6/
+                // load every light value individually to the array 
+                light_array[i] = {};
+                light_array[i].position = this.gl.getUniformLocation(this.shader[selected_shader].program, "light_array[" + i + "].position");
+                light_array[i].color = this.gl.getUniformLocation(this.shader[selected_shader].program, "light_array[" + i + "].color");
+                this.gl.uniform3fv(light_array[i].position, this.scene.light.point_lights[i].position);
+                this.gl.uniform3fv(light_array[i].color, this.scene.light.point_lights[i].color);
 
-             
-           
+
+                //for (let j = 0; j < 3; j++) { // go through light data of current point light
+                // array_position.push(parseFloat(currentPointLight.position[j]));
+                // array_color.push(parseFloat(currentPointLight.color[j]));
+                //     array_position.push(currentPointLight.position[j]);
+                //     array_color.push(currentPointLight.color[j]);
+                // }
+                //console.log("LOOP","POSITION",array_position,"COLOR",array_color);
+
+            }
+
+            ///this.gl.uniform3fv(this.shader[selected_shader].uniforms.position_array, new Float32Array(array_position));
+            //console.log("Float Cast",new Float32Array(array_position), "Java type", array_position);
+            //console.log("Float Cast",new Float32Array(array_color), "Java type", array_color);
+            //this.gl.uniform3fv(this.shader[selected_shader].uniforms.color_array, new Float32Array(array_color));
+            //console.log(parseFloat(this.scene.light.point_lights.length));
 
             // need to load all of my uniform values to my shader from here
-            
+
             this.gl.uniform1f(this.shader[selected_shader].uniforms.material_shininess, this.scene.models[i].material.shininess);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
             //console.log(this.scene.models[i].material.shininess)
-            
+
             //
             // TODO: bind proper texture and set uniform (if shader is a textured one)
             //
@@ -237,7 +250,7 @@ class GlApp {
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
             this.gl.bindVertexArray(null);
         }
-        
+
 
         // draw all light sources
         for (let i = 0; i < this.scene.light.point_lights.length; i++) {
