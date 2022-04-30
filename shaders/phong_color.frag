@@ -17,7 +17,6 @@ out vec4 FragColor;
 
 void main() {
 
-
     // Ambient Light
     vec3 ambient_light = light_ambient * light_color;
 
@@ -28,11 +27,12 @@ void main() {
     vec3 diffuse_light = light_color * max(dot(N, L), 0.0);
     
     // Specular Light
-    vec3 R = 2.0 * max(dot(N, L), 0.0)*(N-L); 
     vec3 V = normalize(camera_position-frag_pos); 
+    vec3 R = normalize(2.0 * max(dot(N, L), 0.0)*N-L); 
 
-    vec3 specular_light = material_specular * light_color * pow(dot(V, R), material_shininess);
-    specular_light = clamp(specular_light, 0.0, 1.0);
+    vec3 specular_light = material_specular * light_color * pow(max(dot(V, R),0.0), material_shininess);
+    //vec3 specular_light = material_specular * light_color * pow(dot(V, R), material_shininess);
+    //specular_light = clamp(specular_light, 0.0, 1.0);
 
     FragColor = vec4((ambient_light+diffuse_light+specular_light)*material_color, 1.0);
 }
