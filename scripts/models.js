@@ -496,7 +496,7 @@ function createCustomVertexArrayStar(gl, position_attrib, normal_attrib) {
     return vertex_array;
 }
 
-
+// Resource used: https://blender.stackexchange.com/questions/93804/i-want-to-export-vertex-data-of-a-simple-object-which-include-normal-and-color-d
 function createCustomVertexArrayBlenderModel(gl, position_attrib, normal_attrib) {
     // create a new Vertex Array Object
     let vertex_array = gl.createVertexArray();
