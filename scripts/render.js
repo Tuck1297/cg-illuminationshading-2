@@ -13,17 +13,45 @@ function init() {
                 },
                 models: [
                     {
-                        type: 'custom',
+                        type: 'cube',
                         shader: 'color',
                         material: {
-                            color: vec3.fromValues(0.7, 0.1, 0.1),  // red, green, blue
+                            color: vec3.fromValues(0.8, 0.1, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
-                            shininess: 1
+                            shininess: 32 
                         },
                         center: vec3.fromValues(0.0, 3.0, -6.0),  // x, y, z
                         size: vec3.fromValues(1.0, 1.0, 1.0),  // width, 1.0, depth
                         rotate_x: 0,
                         rotate_y: 0,
+                        rotate_z: 0
+                    },
+                    {
+                        type: 'star',
+                        shader: 'color',
+                        material: {
+                            color: vec3.fromValues(0.8, 0.8, 0.1),  // red, green, blue
+                            specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
+                            shininess: 32 
+                        },
+                        center: vec3.fromValues(2.0, 2.0, -6.0),  // x, y, z
+                        size: vec3.fromValues(2.0, 2.0, 2.0),  // width, 1.0, depth
+                        rotate_x: 0,
+                        rotate_y: 0,
+                        rotate_z: 0
+                    },
+                    {
+                        type: 'blender_model',
+                        shader: 'color',
+                        material: {
+                            color: vec3.fromValues(0.1, 0.8, 0.1),  // red, green, blue
+                            specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
+                            shininess: 32 
+                        },
+                        center: vec3.fromValues(-2.0, 0.0, -6.0),  // x, y, z
+                        size: vec3.fromValues(0.05, 0.05, 0.05),  // width, 1.0, depth
+                        rotate_x: -1.6,
+                        rotate_y: 1.7,
                         rotate_z: 0
                     },
                     {
@@ -39,7 +67,8 @@ function init() {
                         rotate_x: 0,
                         rotate_y: 0,
                         rotate_z: 0
-                    },
+                    }
+                    ,
                     {
                         type: 'sphere',
                         shader: 'color',
@@ -54,19 +83,20 @@ function init() {
                         rotate_y: 0,
                         rotate_z: 0
                     }
+                    
                 ],
                 light: {
                     ambient: glMatrix.vec3.fromValues(0.2, 0.2, 0.2),  // red, green, blue
                     point_lights: [
                         {
-                            position: vec3.fromValues(5, 3.0, 4.5),  // x, y, z
+                            position: vec3.fromValues(1.5, 3.0, 4.5),  // x, y, z
                             //position: vec3.fromValues(1.5, 3.0, 4.5),
                             color: vec3.fromValues(1.0, 1.0, 0.8)  // red, green, blue
                         },
-                        {
-                            position: vec3.fromValues(-15, 3.0, 4.5),  // x, y, z
-                        //    //position: vec3.fromValues(1.5, 3.0, 4.5),
-                            color: vec3.fromValues(1.0, 1.0, 0.8)  // red, green, blue
+                       {
+                           position: vec3.fromValues(-15, 3.0, 4.5),  // x, y, z
+                           //position: vec3.fromValues(1.5, 3.0, 4.5),
+                           color: vec3.fromValues(1.0, 1.0, 0.8)  // red, green, blue
                        }
                     ]
                 }

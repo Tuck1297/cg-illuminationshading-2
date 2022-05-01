@@ -31,11 +31,15 @@ class GlApp {
             plane: null,                             // of the model - vertices, normals, faces, ...)
             cube: null,
             sphere: null,
-            custom: null
+            custom: null,
+            star: null, 
+            blender_model: null
         };
 
         this.scene = scene;                          // current scene to draw (list of models and lights)
         this.algorithm = 'gouraud';                  // current shading algorithm to use for rendering
+
+        this.points_data = 2; 
 
 
         // download and compile shaders into GPU program
@@ -93,7 +97,7 @@ class GlApp {
         // enable z-buffer for visible surface determination
         this.gl.enable(this.gl.DEPTH_TEST);
 
-        // create models - plane, cube, sphere, and custom
+        // create models - plane, cube, sphere, custom and star
         this.vertex_array.plane = createPlaneVertexArray(this.gl, this.vertex_position_attrib,
             this.vertex_normal_attrib,
             this.vertex_texcoord_attrib);
@@ -106,6 +110,10 @@ class GlApp {
         this.vertex_array.custom = createCustomVertexArray(this.gl, this.vertex_position_attrib,
             this.vertex_normal_attrib,
             this.vertex_texcoord_attrib);
+        this.vertex_array.star = createCustomVertexArrayStar(this.gl, this.vertex_position_attrib,
+               this.vertex_normal_attrib);
+        this.vertex_array.blender_model = createCustomVertexArrayBlenderModel(this.gl, this.vertex_position_attrib,
+            this.vertex_normal_attrib);
 
         // initialize projection matrix with a 45deg field of view
         let fov = 30.0 * (Math.PI / 180.0);
