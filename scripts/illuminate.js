@@ -126,9 +126,11 @@ class GlApp {
         // create a texture, and upload a temporary 1px white RGBA array [255,255,255,255]
         let texture = this.gl.createTexture();
 
-        //
-        // TODO: set texture parameters and upload a temporary 1px white RGBA array [255,255,255,255]
-        // 
+        let white = [255, 255, 255, 255]; // RGBA
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, 1, 1, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, new Uint8Array(white));
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
 
         // download the actual image
         let image = new Image();
@@ -143,9 +145,11 @@ class GlApp {
     }
 
     updateTexture(texture, image_element) {
-        //
-        // TODO: update image for specified texture
-        //
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image_element);
+        this.gl.generateMipmap(this.gl.TEXTURE_2D);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
+        this.render();
     }
 
     render() {
@@ -161,21 +165,22 @@ class GlApp {
             if (this.algorithm === 'gouraud') { // gouraud
                 if (currentModel.shader === 'texture') { // texture
                     selected_shader = "gouraud_texture";
+                    console.log("gouraud texture");
                 } else { // color or assumed color
                     selected_shader = "gouraud_color";
+                    console.log("gouraud color");
                 }
             } else if (this.algorithm === 'phong') { // phong
-                console.log("PHONG");
                 if (currentModel.shader === 'texture') { // texture
                     console.log("PHONG TEXTURE");
                     selected_shader = "phong_texture";
                 } else { // color or assumed color
                     selected_shader = "phong_color";
+                    console.log("PHONG COLOR");
                 }
             } else {
                 selected_shader = "emissive";
             }
-
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
@@ -191,9 +196,10 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.projection_matrix, false, this.projection_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.view_matrix, false, this.view_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
-
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
-
+            if (currentModel.shader === 'texture') {
+                this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, currentModel.texture.scale);   
+            }
             this.gl.uniform1i(this.shader[selected_shader].uniforms.lights, this.scene.light.point_lights.length);
 
             // add all light sources to an array buffer
@@ -201,9 +207,14 @@ class GlApp {
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
             // console.log("SINGLE:","POSITION",this.scene.light.point_lights[0].position,"COLOR",this.scene.light.point_lights[0].color);
-            console.log("individual", this.scene.light.point_lights[0].position, this.scene.light.point_lights[0].color)
             //let array_position = [];
             //let array_color = [];
+
+            if(currentModel.shader == 'texture') {
+                this.gl.activeTexture(this.gl.TEXTURE0);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, currentModel.texture.id);
+                this.gl.uniform1i(this.shader[selected_shader].uniforms.image, 0);
+            }
 
             let light_array = [];
             // pass into shaders all the light data into one array where each array index points to a struct that 
@@ -220,31 +231,15 @@ class GlApp {
                 this.gl.uniform3fv(light_array[i].color, this.scene.light.point_lights[i].color);
 
 
-                //for (let j = 0; j < 3; j++) { // go through light data of current point light
-                // array_position.push(parseFloat(currentPointLight.position[j]));
-                // array_color.push(parseFloat(currentPointLight.color[j]));
-                //     array_position.push(currentPointLight.position[j]);
-                //     array_color.push(currentPointLight.color[j]);
-                // }
-                //console.log("LOOP","POSITION",array_position,"COLOR",array_color);
+
 
             }
 
-            ///this.gl.uniform3fv(this.shader[selected_shader].uniforms.position_array, new Float32Array(array_position));
-            //console.log("Float Cast",new Float32Array(array_position), "Java type", array_position);
-            //console.log("Float Cast",new Float32Array(array_color), "Java type", array_color);
-            //this.gl.uniform3fv(this.shader[selected_shader].uniforms.color_array, new Float32Array(array_color));
-            //console.log(parseFloat(this.scene.light.point_lights.length));
-
-            // need to load all of my uniform values to my shader from here
 
             this.gl.uniform1f(this.shader[selected_shader].uniforms.material_shininess, this.scene.models[i].material.shininess);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
             //console.log(this.scene.models[i].material.shininess)
 
-            //
-            // TODO: bind proper texture and set uniform (if shader is a textured one)
-            //
 
             this.gl.bindVertexArray(this.vertex_array[this.scene.models[i].type]);
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
