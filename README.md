@@ -9,7 +9,7 @@
 - [x] Implement Phong shading: 20 pts
   - Shaders: phong_color.vert / phong_color.frag
   - Only need to handle first point light source
-- [] Create your own custom model type (beyond the provided plane, cube, and sphere): 5 pts
+- [x] Create your own custom model type (beyond the provided plane, cube, and sphere): 5 pts
 ### Additional features (to earn a B or A)
 - [] Implement texture mapping: 10pts
   - Allow for tiling textures
