@@ -19,29 +19,19 @@ uniform sampler2D image;          // use in conjunction with Ka and Kd
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(material_color, 1.0) * texture(image, frag_texcoord);
-
-    vec3 ambient = material_color * light_ambient;
-
-    vec3 normal = normalize(frag_normal);
+    vec3 ambient = light_ambient;
     vec3 diffuse = vec3(0,0,0);
     vec3 specular = vec3(0,0,0);
 
     for(int i = 0; i < lights; i++) {
-        vec3 direction = normalize(light_position[i] - frag_pos);
-        
-        diffuse = diffuse + light_color[i] * material_color * max(dot(normal, direction), 0.0);
+        diffuse = diffuse + light_color[i] * clamp(dot(frag_normal, normalize(light_position[i] - frag_pos)), 0.0, 1.0);
 
-        vec3 reflected = normalize(reflect(-direction, normal));
-
-        vec3 viewDirection = normalize(camera_position - frag_pos);
-
-        specular = specular + light_color[i] * material_specular * pow(max(dot(viewDirection, reflected), 0.0), material_shininess);
+        vec3 reflected = reflect(-normalize(light_position[i] - frag_pos), frag_normal);
+        vec3 view = normalize(camera_position - frag_pos);
+        specular = specular + light_color[i] * pow(clamp(dot(reflected, view), 0.0, 1.0), material_shininess);
     }
-
-    ambient = clamp(ambient, 0.0, 1.0);
-    diffuse = clamp(diffuse, 0.0, 1.0);
     specular = clamp(specular, 0.0, 1.0);
-    vec3 combined = ambient + diffuse + specular;
-    FragColor = vec4(combined, 1.0) * texture(image, frag_texcoord);
+    diffuse = clamp(diffuse, 0.0, 1.0);
+
+    FragColor = (vec4(material_color, 1.0) * texture(image, frag_texcoord)) + (vec4(ambient, 1.0) * vec4(material_color, 1.0)) + (vec4(diffuse, 1.0) * vec4(material_color, 1.0)) + (vec4(specular, 1.0) * vec4(material_specular, 1.0));
 }

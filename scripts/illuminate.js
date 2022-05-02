@@ -65,7 +65,7 @@ class GlApp {
         this.shader.gouraud_color = this.createShaderProgram(shaders[0], shaders[1]);
         this.shader.gouraud_texture = this.createShaderProgram(shaders[2], shaders[3]);
         this.shader.phong_color = this.createShaderProgram(shaders[4], shaders[5]);
-        this.shader.phone_texture = this.createShaderProgram(shaders[6], shaders[7]);
+        this.shader.phong_texture = this.createShaderProgram(shaders[6], shaders[7]);
         this.shader.emissive = this.createShaderProgram(shaders[8], shaders[9]);
 
         this.initializeGlApp();
@@ -170,25 +170,21 @@ class GlApp {
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
 
             let selected_shader;
-            if (this.algorithm === 'gouraud') { // gouraud
-                if (currentModel.shader === 'texture') { // texture
-                    selected_shader = "gouraud_texture";
-                    console.log("gouraud texture");
-                } else { // color or assumed color
-                    selected_shader = "gouraud_color";
-                    console.log("gouraud color");
-                }
-            } else if (this.algorithm === 'phong') { // phong
-                if (currentModel.shader === 'texture') { // texture
-                    console.log("PHONG TEXTURE");
-                    selected_shader = "phong_texture";
-                } else { // color or assumed color
-                    selected_shader = "phong_color";
-                    console.log("PHONG COLOR");
+            if(currentModel.shader === 'color') {
+                if(this.algorithm === 'gouraud') {
+                    selected_shader = 'gouraud_color';
+                } else {
+                    selected_shader = 'phong_color';
                 }
             } else {
-                selected_shader = "emissive";
+                if(this.algorithm === 'gouraud') {
+                    selected_shader = 'gouraud_texture';
+                } else {
+                    selected_shader = 'phong_texture';
+                }
+
             }
+            console.log("TEST:",this.shader[selected_shader]);
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
