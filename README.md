@@ -9,7 +9,7 @@
   - Only need to handle first point light source
 - [x] Create your own custom model type (beyond the provided plane, cube, and sphere): 5 pts
 ### Additional features (to earn a B or A)
-- [] Implement texture mapping: 10pts
+- [x] Implement texture mapping: 10pts
   - Allow for tiling textures
   - Usable with both Gouraud and Phong shading
   - Custom model should include texture coordinates
