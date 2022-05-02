@@ -9,10 +9,12 @@
   - Only need to handle first point light source
 - [x] Create your own custom model type (beyond the provided plane, cube, and sphere): 5 pts
 ### Additional features (to earn a B or A)
-- [] Implement texture mapping: 10pts
+- [x] Implement texture mapping: 10pts
   - Allow for tiling textures
   - Usable with both Gouraud and Phong shading
   - Custom model should include texture coordinates
 - [x] Enmable multiple point lights to illuminate a scene: 5 pts
   - Maximum of 10 lights - will need to change the light in the shaders to an array of lights (with size = 10)
   - Make sure to cap color intensity at 1.0
+
+### Both partners contributed equally to this project
