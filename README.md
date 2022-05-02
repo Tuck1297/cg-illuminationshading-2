@@ -15,6 +15,6 @@
   - Allow for tiling textures
   - Usable with both Gouraud and Phong shading
   - Custom model should include texture coordinates
-- [] Enmable multiple point lights to illuminate a scene: 5 pts
+- [x] Enmable multiple point lights to illuminate a scene: 5 pts
   - Maximum of 10 lights - will need to change the light in the shaders to an array of lights (with size = 10)
   - Make sure to cap color intensity at 1.0
