@@ -26,11 +26,9 @@ void main() {
     vec3 specular_light = specular;
     
      //FragColor = vec4((ambient_light+diffuse_light+specular_light)*material_color,1.0);
-     // TODO: Ask Dr. Marrinan if material_color should be included in specular
-     //FragColor = vec4((ambient * material_color) + (diffuse * material_color) + (specular * material_specular), 1.0);
+     //FragColor = vec4((ambient * material_color) + (diffuse * material_color) + (specular * material_specular*material_color), 1.0);
 
-    // TODO: Ask Dr. Marrinan about white wash of sphere color when circling
      // Multiple Light Source Calculation
-     FragColor = vec4((ambient_multiple*material_color)+(diff_multiple*material_color)+(spec_multiple*material_specular), 1.0);
+     FragColor = vec4((ambient_multiple*material_color)+(diff_multiple*material_color)+(spec_multiple*material_specular*material_color), 1.0);
      //FragColor = vec4((ambient_multiple+diff_multiple+(spec_multiple*material_specular))*material_color, 1.0);
 }
