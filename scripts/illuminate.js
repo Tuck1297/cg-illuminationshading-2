@@ -176,15 +176,15 @@ class GlApp {
                 } else {
                     selected_shader = 'phong_color';
                 }
-            } else {
+            } else if (currentModel.shader === 'texture') {
                 if(this.algorithm === 'gouraud') {
                     selected_shader = 'gouraud_texture';
                 } else {
                     selected_shader = 'phong_texture';
                 }
-
+            } else {
+                selected_shader = 'emissive';
             }
-            console.log("TEST:",this.shader[selected_shader]);
             this.gl.useProgram(this.shader[selected_shader].program);
 
             // transform model to proper position, size, and orientation
@@ -201,9 +201,6 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.view_matrix, false, this.view_matrix);
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
-            if (currentModel.shader === 'texture') {
-                this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, currentModel.texture.scale);   
-            }
             this.gl.uniform1i(this.shader[selected_shader].uniforms.lights, this.scene.light.point_lights.length);
 
             // add all light sources to an array buffer
@@ -215,9 +212,11 @@ class GlApp {
             //let array_color = [];
 
             if(currentModel.shader == 'texture') {
+                this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, currentModel.texture.scale);
+                this.gl.uniform1i(this.shader[selected_shader].uniforms.image, 0);
+
                 this.gl.activeTexture(this.gl.TEXTURE0);
                 this.gl.bindTexture(this.gl.TEXTURE_2D, currentModel.texture.id);
-                this.gl.uniform1i(this.shader[selected_shader].uniforms.image, 0);
             }
 
             let light_array = [];

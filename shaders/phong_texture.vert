@@ -20,5 +20,7 @@ void main() {
     frag_texcoord = vertex_texcoord * texture_scale;
 
     frag_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
-    frag_normal = normalize(inverse(transpose(mat3(model_matrix))) * vertex_normal);
+    
+    // multiply inverse of transpose of upper left 3x3 of model matrix by the vertex normal
+    frag_normal = normalize(vec3(inverse(transpose(mat3(model_matrix))) * vertex_normal));
 }

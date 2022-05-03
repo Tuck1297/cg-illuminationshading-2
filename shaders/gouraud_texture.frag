@@ -20,5 +20,6 @@ void main() {
 
     vec4 combined = vec4((ambient + diffuse + specular), 1.0);
 
-    FragColor = texture(image, frag_texcoord);
+    FragColor = texture(image, frag_texcoord) * combined;
+
 }

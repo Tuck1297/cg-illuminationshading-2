@@ -25,15 +25,24 @@ out vec2 frag_texcoord;
 void main() {
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);  // starter code
     frag_texcoord = vertex_texcoord * texture_scale;                                            // starter code
+    
+    ambient = light_ambient;
+
+    vec3 N = normalize(vertex_normal);
+    vec3 diffuse = vec3(0,0,0);
+    vec3 specular = vec3(0,0,0);
+    
     vec3 position = vec3(model_matrix * vec4(vertex_position, 1.0));
 
-    ambient = light_ambient;
     for(int i = 0; i < lights; i++) {
-        vec3 direction = normalize(light_position[i] - position);
-        vec3 reflected = vec3(2.0, 2.0, 2.0) * (normalize(vertex_normal) * direction) * (normalize(vertex_normal) - direction);
+        // diffuse
+        vec3 lightDirection = normalize(light_position[i] - position);
+        diffuse += light_color[i] * max(dot(N, lightDirection), 0.0);
 
-        diffuse += light_color[i] * max(dot(normalize(vertex_normal), direction), 0.0);
-        specular += light_color[i] * pow(max(dot(normalize(camera_position - position), normalize(reflected)), 0.0), material_shininess);
+        // specular
+        vec3 reflectDirection = normalize(reflect(-lightDirection, N));
+        vec3 viewDirection = normalize(camera_position - position);
+        specular += light_color[i] * pow(max(dot(viewDirection, reflectDirection), 0.0), material_shininess);
     }
 
     // make sure components don't exceede 1.0
