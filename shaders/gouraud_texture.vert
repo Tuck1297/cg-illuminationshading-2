@@ -7,12 +7,20 @@ in vec3 vertex_normal;
 in vec2 vertex_texcoord;
 
 uniform int lights;                    // number of lights
+struct _lights {
+    vec3 position; 
+    vec3 color; 
+};
+uniform _lights light_array[10];
 uniform vec3 light_ambient;
-uniform vec3 light_position[10];
-uniform vec3 light_color[10];
+//uniform vec3 light_position[10];
+//uniform vec3 light_color[10];
 uniform vec3 camera_position;
-uniform float material_shininess;
+
+uniform float material_shininess; // n
+
 uniform vec2 texture_scale;
+
 uniform mat4 model_matrix;
 uniform mat4 view_matrix;
 uniform mat4 projection_matrix;
@@ -27,26 +35,29 @@ void main() {
     frag_texcoord = vertex_texcoord * texture_scale;                                            // starter code
     
     ambient = light_ambient;
-
     vec3 N = normalize(vertex_normal);
-    vec3 diffuse = vec3(0,0,0);
-    vec3 specular = vec3(0,0,0);
+    vec3 diffuseSum = vec3(0,0,0);
+    vec3 specularSum = vec3(0,0,0);
     
     vec3 position = vec3(model_matrix * vec4(vertex_position, 1.0));
 
     for(int i = 0; i < lights; i++) {
         // diffuse
-        vec3 lightDirection = normalize(light_position[i] - position);
-        diffuse += light_color[i] * max(dot(N, lightDirection), 0.0);
+        vec3 lightDirection = normalize(light_array[i].position - position);
+        float diffuse_calculation = max(dot(N, lightDirection), 0.0);
+        diffuseSum += diffuse_calculation * light_array[i].color;
 
         // specular
-        vec3 reflectDirection = normalize(reflect(-lightDirection, N));
+        vec3 R = normalize(2.0 * max(dot(N, lightDirection), 0.0) * N - lightDirection);
         vec3 viewDirection = normalize(camera_position - position);
-        specular += light_color[i] * pow(max(dot(viewDirection, reflectDirection), 0.0), material_shininess);
+        specularSum += light_array[i].color * pow(max(dot(viewDirection, R), 0.0), material_shininess);
     }
 
     // make sure components don't exceede 1.0
     ambient = clamp(ambient, 0.0, 1.0);
-    diffuse = clamp(diffuse, 0.0, 1.0);
-    specular = clamp(specular, 0.0, 1.0);
+    diffuseSum = clamp(diffuseSum, 0.0, 1.0);
+    specularSum = clamp(specularSum, 0.0, 1.0);
+
+    diffuse = diffuseSum;
+    specular = specularSum;
 }
