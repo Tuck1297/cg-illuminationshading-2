@@ -111,9 +111,9 @@ class GlApp {
             this.vertex_normal_attrib,
             this.vertex_texcoord_attrib);
         this.vertex_array.star = createCustomVertexArrayStar(this.gl, this.vertex_position_attrib,
-               this.vertex_normal_attrib);
+               this.vertex_normal_attrib, this.vertex_texcoord_attrib);
         this.vertex_array.blender_model = createCustomVertexArrayBlenderModel(this.gl, this.vertex_position_attrib,
-            this.vertex_normal_attrib);
+            this.vertex_normal_attrib, this.vertex_texcoord_attrib);
 
         // initialize projection matrix with a 45deg field of view
         let fov = 30.0 * (Math.PI / 180.0);

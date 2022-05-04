@@ -39,7 +39,8 @@ void main() {
 
         // specular
         //vec3 R = reflect(-normalize(light_position[i] - frag_pos), frag_normal);
-        vec3 R = normalize(-reflect(L, N));
+        //vec3 R = normalize(-reflect(L, N));
+        vec3 R = normalize(2.0 * max(dot(N, L), 0.0) * N-L);
         specular += light_array[i].color * material_specular * pow(max(dot(R, V), 0.0), material_shininess) * material_color;
     }
     ambient = clamp(ambient, 0.0, 1.0);

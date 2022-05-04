@@ -35,12 +35,15 @@ void main() {
     frag_texcoord = vertex_texcoord * texture_scale;                                            // starter code
     
     ambient = light_ambient;
-    vec3 N = normalize(vertex_normal);
+    //vec3 N = normalize(vertex_normal);
+    vec3 Normal = mat3(transpose(inverse(model_matrix))) *vertex_normal;
+    vec3 N = normalize(Normal);
     vec3 diffuseSum = vec3(0,0,0);
     vec3 specularSum = vec3(0,0,0);
     
     vec3 position = vec3(model_matrix * vec4(vertex_position, 1.0));
 
+    vec3 viewDirection = normalize(camera_position - position);
     for(int i = 0; i < lights; i++) {
         // diffuse
         vec3 lightDirection = normalize(light_array[i].position - position);
@@ -49,7 +52,6 @@ void main() {
 
         // specular
         vec3 R = normalize(2.0 * max(dot(N, lightDirection), 0.0) * N - lightDirection);
-        vec3 viewDirection = normalize(camera_position - position);
         specularSum += light_array[i].color * pow(max(dot(viewDirection, R), 0.0), material_shininess);
     }
 

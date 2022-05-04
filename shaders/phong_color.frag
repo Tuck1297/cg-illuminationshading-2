@@ -63,10 +63,10 @@ void main() {
 
         // Specular calculations - Sum
         vec3 R_mult = normalize(2.0*max(dot(N, L_mult), 0.0)*N-L_mult);
-        spec_sum += material_specular*light_array[i].color*pow(max(dot(V, R_mult), 0.0), material_shininess); 
+        spec_sum += material_color * material_specular*light_array[i].color*pow(max(dot(V, R_mult), 0.0), material_shininess); 
     }
 
-    FragColor = vec4(ambient_multiple+diffuse_sum+(spec_sum * material_color), 1.0);
+    FragColor = vec4(ambient_multiple+diffuse_sum+spec_sum, 1.0);
 
 }
 

@@ -14,21 +14,26 @@ function init() {
                 models: [
                     {
                         type: 'cube',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
                             color: vec3.fromValues(0.8, 0.1, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
                             shininess: 32 
                         },
-                        center: vec3.fromValues(0.0, 3.0, -6.0),  // x, y, z
+                        center: vec3.fromValues(-2.0, 3.3, -6.0),  // x, y, z
                         size: vec3.fromValues(1.0, 1.0, 1.0),  // width, 1.0, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0, 
+                        texture: {
+                            url: "images/Checkered.jpg",
+                            scale: [1, 1]
+                        },
                     },
                     {
                         type: 'star',
                         shader: 'color',
+                        //shader: 'texture',
                         material: {
                             color: vec3.fromValues(0.8, 0.8, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
@@ -38,7 +43,11 @@ function init() {
                         size: vec3.fromValues(2.0, 2.0, 2.0),  // width, 1.0, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/Checkered.jpg",
+                            scale: [4, 4]
+                        },
                     },
                     {
                         type: 'blender_model',
@@ -52,7 +61,11 @@ function init() {
                         size: vec3.fromValues(0.05, 0.05, 0.05),  // width, 1.0, depth
                         rotate_x: -1.6,
                         rotate_y: 1.7,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/texture1.jpg",
+                            scale: [4, 4]
+                        },
                     },
                     {
                         type: 'plane',
@@ -66,7 +79,7 @@ function init() {
                         size: vec3.fromValues(8.0, 1.0, 8.0),  // width, 1.0, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
                     }
                     ,
                     {
@@ -92,8 +105,9 @@ function init() {
                             specular: vec3.fromValues(1.0, 1.0, 1.0),
                             shininess: 16,
                         },
-                        center: vec3.fromValues(0.0, 1.25, -2.0),
-                        size: vec3.fromValues(0.75, 0.75, 0.75),
+                        //center: vec3.fromValues(0.0, 1.25, -2.0),
+                        center: vec3.fromValues(0.0, 3.25, -6.0),
+                        size: vec3.fromValues(0.50, 0.50, 0.50),
                         rotate_x: 0,
                         rotate_y: 0,
                         rotate_z: 0
