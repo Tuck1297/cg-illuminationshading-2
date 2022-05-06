@@ -654,7 +654,7 @@ function createCustomVertexArrayStar(gl, position_attrib, normal_attrib, texcoor
     let normals = [];
 
     // For center vertex front and back
-    normals.push(0, 0, 1.0, 0, 0, -1.0);
+    normals.push(0, 0, 0.2, 0, 0, -0.2);
     // For all point vertices
     for (let a = 0; a <= (Math.PI * 2); a += angle) {
         let sx = Math.cos(a) * radius2;
@@ -665,7 +665,7 @@ function createCustomVertexArrayStar(gl, position_attrib, normal_attrib, texcoor
         normals.push(sx, sy, 0.0);
     }
 
-
+    // texcoords not calculated!
 
     // create buffer to store texture coordinate (2D coordinates for mapping images to the surface)
     let vertex_texcoord_buffer = gl.createBuffer();
@@ -681,8 +681,6 @@ function createCustomVertexArrayStar(gl, position_attrib, normal_attrib, texcoor
     // attach vertex_texcoord_buffer to the texcoord_attrib
     // (as 2-component floating point values)
     gl.vertexAttribPointer(texcoord_attrib, 2, gl.FLOAT, false, 0, 0);
-
-
 
 
 

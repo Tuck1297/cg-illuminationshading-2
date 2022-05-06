@@ -102,7 +102,7 @@
             "material": {
                 "color": [1.0, 1.0, 1.0],
                 "specular": [1.0, 1.0, 1.0],
-                "shininess": 32
+                "shininess": 5000
             },
             "texture": {
                 "url": "images/earth.jpg",
@@ -192,7 +192,7 @@
         "ambient": [0.15, 0.15, 0.15],
         "point_lights": [
             {
-                "position": [1.5,-24.0,-3.0],
+                "position": [1.5,5,8],
                 "color": [1.0, 1.0, 1.0]
             },
             {

@@ -19,9 +19,11 @@ void main() {
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
     frag_texcoord = vertex_texcoord * texture_scale;
 
-    vec4 position = model_matrix * vec4(vertex_position, 1.0);
-    frag_pos = vec3(position);
+    //vec4 position = model_matrix * vec4(vertex_position, 1.0);
+    //frag_pos = vec3(position);
+    frag_pos = vec3(model_matrix * vec4(vertex_position, 1.0)); 
     
     // multiply inverse of transpose of upper left 3x3 of model matrix by the vertex normal
-    frag_normal = normalize(inverse(transpose(mat3(model_matrix))) * vertex_normal);
+    //frag_normal = normalize(inverse(transpose(mat3(model_matrix))) * vertex_normal);
+    frag_normal = mat3(transpose(inverse(model_matrix))) * vertex_normal;
 }

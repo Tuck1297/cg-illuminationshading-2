@@ -53,7 +53,7 @@ function init() {
                         type: 'blender_model',
                         shader: 'color',
                         material: {
-                            color: vec3.fromValues(0.1, 0.8, 0.1),  // red, green, blue
+                            color: vec3.fromValues(0.4, 0.4, 0.4),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
                             shininess: 32 
                         },
