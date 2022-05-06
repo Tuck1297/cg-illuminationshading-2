@@ -50,6 +50,7 @@ vec3 light_color_test = light_array[1].color;
     diffuse = diffuse_calculation * light_color_test;
     //diffuse = clamp(diffuse, 0.0, 1.0);
     
+
     // TODO: investigate specular light behavior when light is close to object
 
     // Specular Light Calculations
@@ -81,7 +82,6 @@ vec3 light_color_test = light_array[1].color;
         // Specular Light Calculations - Sum
         vec3 R_mult = normalize(2.0*dot(N, L_mult)*N-L_mult);
         specular_sum += pow(max(dot(V, R_mult),0.0), material_shininess) * light_array[i].color;
-
     }
     
     ambient_multiple = light_ambient; 
