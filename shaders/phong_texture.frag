@@ -27,7 +27,7 @@ void main() {
     
     vec3 N = normalize(frag_normal);
     vec3 V = normalize(camera_position - frag_pos);
-
+ 
     vec3 ambient = light_ambient * material_color;
     vec3 diffuse = vec3(0,0,0);
     vec3 specular = vec3(0,0,0);
@@ -40,14 +40,17 @@ void main() {
         // specular
         //vec3 R = reflect(-normalize(light_position[i] - frag_pos), frag_normal);
         //vec3 R = normalize(-reflect(L, N));
-        vec3 R = normalize(2.0 * max(dot(N, L), 0.0) * N-L);
-        specular += light_array[i].color * material_specular * pow(max(dot(R, V), 0.0), material_shininess) * material_color;
+        vec3 R = normalize(2.0 * dot(N, L) * N-L);
+        specular += light_array[i].color * material_specular * pow(max(dot(R, V), 0.0), material_shininess);
     }
     ambient = clamp(ambient, 0.0, 1.0);
     specular = clamp(specular, 0.0, 1.0);
     diffuse = clamp(diffuse, 0.0, 1.0);
 
-    vec3 combined = (ambient + diffuse + specular);
+    vec3 combined = (ambient + diffuse);
 
-    FragColor = vec4(combined, 1.0) * texture(image, frag_texcoord);
+    FragColor = vec4(combined, 1.0) * texture(image, frag_texcoord)+ vec4(specular,1.0);
 }
+
+// NOTE: do we want to add in specular with ambient and diffuse or add it to the fragColor
+// NOTE: something is slightly off with diffuse lighting for multiple lights

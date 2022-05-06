@@ -79,7 +79,7 @@ vec3 light_color_test = light_array[1].color;
         diffuse_sum += diffuse_calculation * light_array[i].color;
 
         // Specular Light Calculations - Sum
-        vec3 R_mult = normalize(2.0 * max(dot(N, L_mult), 0.0) * N-L_mult);
+        vec3 R_mult = normalize(2.0*dot(N, L_mult)*N-L_mult);
         specular_sum += pow(max(dot(V, R_mult),0.0), material_shininess) * light_array[i].color;
 
     }

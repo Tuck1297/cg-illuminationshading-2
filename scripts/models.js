@@ -1,3 +1,6 @@
+let temp; 
+
+
 function createPlaneVertexArray(gl, position_attrib, normal_attrib, texcoord_attrib) {
     // create a new Vertex Array Object
     let vertex_array = gl.createVertexArray();
@@ -735,7 +738,7 @@ function createCustomVertexArrayBlenderModel(gl, position_attrib, normal_attrib,
     // set newly created buffer as the active one we are modifying
     gl.bindBuffer(gl.ARRAY_BUFFER, vertex_position_buffer);
     // create array of 3D vertex values (each set of 3 values specifies a vertex: x, y, z) 
-
+    
     let vertices = [
         0.000000, -5.420579, 39.190041,
         0.000000, -4.971490, 43.327557,
@@ -1697,7 +1700,6 @@ function createCustomVertexArrayBlenderModel(gl, position_attrib, normal_attrib,
         0.605439, 5.485188, 37.232494
 
     ];
-
 
     // store array of vertex positions in the vertex_position_buffer
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -3215,3 +3217,23 @@ function createCustomVertexArrayBlenderModel(gl, position_attrib, normal_attrib,
     // return created Vertex Array Object
     return vertex_array;
 }
+
+/*
+function fetchXYZ() {
+    fetch("Blender Data Extract/xyz_vertices.txt") 
+        .then((response)=> {
+            return response.text();
+        })
+        .then ((text)=>{
+            temp = text.split(",");
+            temp.pop();
+            for (let i = 0; i < temp.length; i++) {
+                temp[i] = parseFloat(temp[i]);
+            }
+            console.log("temp",temp) 
+        });
+
+
+
+}
+*/

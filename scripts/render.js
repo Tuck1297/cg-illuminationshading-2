@@ -84,7 +84,7 @@ function init() {
                     ,
                     {
                         type: 'sphere',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
                             color: vec3.fromValues(0.1, 0.4, 0.9),  // red, green, blue
                             specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
@@ -94,7 +94,11 @@ function init() {
                         size: vec3.fromValues(2.0, 2.0, 2.0),  // width, height, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/texture1.jpg",
+                            scale: [4, 4]
+                        },
                     }
                     ,
                     {

@@ -26,9 +26,9 @@ public class extract {
         String edgesString = "";
         String xyzString = "";
         String normalString = "";
-        int counter = 0;
+        //int counter = 0;
         // Change this file name to the name that you placed in the scope of the program
-        File myFile = new File("rocket.txt");
+        File myFile = new File("Blender Data Extract/rocket.txt");
         try {
             fileGetter = new Scanner(myFile);
         } catch (FileNotFoundException e) {
@@ -47,18 +47,20 @@ public class extract {
                 xyzString = xyzString + parts[0] + "," + parts[1] + "," + parts[2] + "," + "\n";
                 // Extracts normal_x, normal_y and normal_z data from list
                 normalString = normalString + parts[3] + "," + parts[4] + "," + parts[5] + "," + "\n";
-                System.out.println(parts.length);
+                //System.out.println(parts.length);
             } else if (parts.length == 4) {
                 // Extracts edge data from list
                 edgesString = edgesString + parts[1] + "," + parts[2] + "," + parts[3] + "," + "\n";
             }
-            counter++;
+            //counter++;
         }
         try {
             // After extracting data create three unique files with each containing their specific data
+            fileGetter.close();
             Files.write(Paths.get("edges.txt"), edgesString.getBytes(StandardCharsets.UTF_8));
             Files.write(Paths.get("xyz_vertices.txt"), xyzString.getBytes(StandardCharsets.UTF_8));
             Files.write(Paths.get("normal.txt"), normalString.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Complete");
         } catch (IOException e) {
             System.out.println("Problem writing file");
         }

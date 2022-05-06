@@ -41,18 +41,18 @@ void main() {
     vec3 diffuseSum = vec3(0,0,0);
     vec3 specularSum = vec3(0,0,0);
     
-    vec3 position = vec3(model_matrix * vec4(vertex_position, 1.0));
+    vec3 frag_pos = vec3(model_matrix * vec4(vertex_position, 1.0)); // position
 
-    vec3 viewDirection = normalize(camera_position - position);
+    vec3 V = normalize(camera_position - frag_pos); // viewdirection
     for(int i = 0; i < lights; i++) {
         // diffuse
-        vec3 lightDirection = normalize(light_array[i].position - position);
-        float diffuse_calculation = max(dot(N, lightDirection), 0.0);
+        vec3 L = normalize(light_array[i].position - frag_pos); // lightdirection
+        float diffuse_calculation = max(dot(N, L), 0.0);
         diffuseSum += diffuse_calculation * light_array[i].color;
 
         // specular
-        vec3 R = normalize(2.0 * max(dot(N, lightDirection), 0.0) * N - lightDirection);
-        specularSum += light_array[i].color * pow(max(dot(viewDirection, R), 0.0), material_shininess);
+        vec3 R = normalize(2.0 *dot(N, L)* N - L);
+        specularSum += light_array[i].color * pow(max(dot(V, R), 0.0), material_shininess);
     }
 
     // make sure components don't exceede 1.0
