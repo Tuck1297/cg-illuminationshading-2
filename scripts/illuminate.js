@@ -33,7 +33,8 @@ class GlApp {
             sphere: null,
             custom: null,
             star: null, 
-            blender_model: null
+            blender_model: null, 
+            pin: null
         };
 
         this.scene = scene;                          // current scene to draw (list of models and lights)
@@ -114,6 +115,8 @@ class GlApp {
                this.vertex_normal_attrib, this.vertex_texcoord_attrib);
         this.vertex_array.blender_model = createCustomVertexArrayBlenderModel(this.gl, this.vertex_position_attrib,
             this.vertex_normal_attrib, this.vertex_texcoord_attrib);
+        this.vertex_array.pin = createCustomVertexArrayBowlingPins(this.gl, this.vertex_position_attrib,
+                this.vertex_normal_attrib, this.vertex_texcoord_attrib);
 
         // initialize projection matrix with a 45deg field of view
         let fov = 30.0 * (Math.PI / 180.0);

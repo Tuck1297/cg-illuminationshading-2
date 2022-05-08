@@ -28,7 +28,7 @@ public class extract {
         String normalString = "";
         //int counter = 0;
         // Change this file name to the name that you placed in the scope of the program
-        File myFile = new File("Blender Data Extract/rocket.txt");
+        File myFile = new File("Blender Data Extract/pin.txt");
         try {
             fileGetter = new Scanner(myFile);
         } catch (FileNotFoundException e) {
@@ -57,9 +57,9 @@ public class extract {
         try {
             // After extracting data create three unique files with each containing their specific data
             fileGetter.close();
-            Files.write(Paths.get("edges.txt"), edgesString.getBytes(StandardCharsets.UTF_8));
-            Files.write(Paths.get("xyz_vertices.txt"), xyzString.getBytes(StandardCharsets.UTF_8));
-            Files.write(Paths.get("normal.txt"), normalString.getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("pin_edges.txt"), edgesString.getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("pin_xyz_vertices.txt"), xyzString.getBytes(StandardCharsets.UTF_8));
+            Files.write(Paths.get("pin_normal.txt"), normalString.getBytes(StandardCharsets.UTF_8));
             System.out.println("Complete");
         } catch (IOException e) {
             System.out.println("Problem writing file");

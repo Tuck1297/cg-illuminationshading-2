@@ -103,9 +103,9 @@ function init() {
                     ,
                     {
                         type: 'custom',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
-                            color: vec3.fromValues(0.1, 0.5, 0.5),
+                            color: vec3.fromValues(1.0, 1.0, 1.0),
                             specular: vec3.fromValues(1.0, 1.0, 1.0),
                             shininess: 16,
                         },
@@ -114,7 +114,11 @@ function init() {
                         size: vec3.fromValues(0.50, 0.50, 0.50),
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/gold.jpg",
+                            scale: [0.5, 0.5]
+                        },
                     }
                     
                 ],
