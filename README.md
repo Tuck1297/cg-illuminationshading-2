@@ -50,11 +50,13 @@ This is where the specs for this project will go.
 
 ## Controls
 
-There are some controls not listed on the site to move around the projection. There are the following: 
-- list 1
-- list 2
-- list 3
-- list 4
+There are some controls not listed on the site to allow one to move around the projection. Here are the following: 
+- Left Arrow Key: Rotate Left
+- Right Arrow Key: Rotate Right
+- A Key: Shift left
+- D Key: Shift right
+- W Key: Move Forwards
+- S Key: Move Backwards
 
 ---
 ## Tools and Languages Used
