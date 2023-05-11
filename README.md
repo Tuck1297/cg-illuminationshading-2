@@ -1,6 +1,6 @@
 <div align="center">
   <h1>3D Illumination and Shading using the HTML5 WebGL2 API</h1>
-  <img src=""/>
+  <img src="https://github.com/Tuck1297/tuck1297.github.io/blob/master/Media/phong-shading-cg-ev1.JPG"/>
 </div>
 
 ## Project Overview
@@ -40,7 +40,7 @@ Using WebGL2's API, this project generates 3-Dimensional shapes and lighting in 
 
 ## Plug and Play
 
-### Try out this project here: [Illumination Shading]()
+### Try out this project here: [Illumination Shading](https://tuck1297.github.io/cg-illuminationshading-2/)
 
 If you are interested in building your own 3D Environments in this project...
 
