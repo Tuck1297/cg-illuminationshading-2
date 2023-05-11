@@ -65,6 +65,6 @@ There are some controls not listed on the site to move around the projection. Th
   <img src="https://github.com/devicons/devicon/blob/master/icons/git/git-original-wordmark.svg" title="Git" **alt="Git" width="60" height="60"/>
   <img src="https://github.com/devicons/devicon/blob/master/icons/github/github-original.svg" title="Github" **alt="Github" width="60" height="60"/>
   <img src="https://github.com/devicons/devicon/blob/master/icons/vscode/vscode-original.svg" title="vscode" **alt="vscode" width="60" height="60"/>
-  <img src="https://en.wikipedia.org/wiki/WebGL#/media/File:WebGL_Logo.svg" title="WebGL" **alt="WebGL" height="60" />
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/WebGL_Logo.svg/1920px-WebGL_Logo.svg.png" title="WebGL" **alt="WebGL" height="60" />
 </div>
 
