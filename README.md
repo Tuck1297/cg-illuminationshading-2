@@ -71,29 +71,29 @@ Phong shading calculates shading at each point on the surface of an object by in
 If you want to develop your own virtual environment inside this project you will need to define the following properties in a Json file: 
 1. background - REQUIRED ~ color of background [red, green, blue]
 2. camera - REQUIRED
-  - position - REQUIRED ~ [x, y, z]
-  - target - REQUIRED ~ location in scene that camera is looking [x, y, z]
-  - up - REQUIRED ~ vector pointing in camera's up direction [0,1,0] (default values)
+    - position - REQUIRED ~ [x, y, z]
+    - target - REQUIRED ~ location in scene that camera is looking [x, y, z]
+    - up - REQUIRED ~ vector pointing in camera's up direction [0,1,0] (default values)
 3. models
-  - type - REQUIRED ~ options are plane, sphere, cube, star, custom, pin or blender_model
-  - shader - REQUIRED ~ options are color or texture. Texture is selected if you have a texture you want to apply to the model and color if you only have a color you want to apply to the model
-  - material - REQUIRED
-    - color - REQUIRED ~ color you want to set model to [red, green, blue]
-    - specular - REQUIRED ~ ???
-    - shininess - REQUIRED ~ ???
-  - texture - OPTIONAL ~ only need if set shader property above to texture
-    - url - REQUIRED ~ path to texture to map to model ex. "images/texture.jpg" ~ only jpg images are supported at this time
-    - scale - REQUIRED ~ ???
-  - center - REQUIRED ~ ???
-  - size - REQUIRED ~ ???
-  - rotate_x - OPTIONAL ~ in degrees - if include this one need to include other two
-  - rotate_y - OPTIONAL ~ in degrees - if include this one need to include other two
-  - rotate_z - OPTIONAL ~ in degrees - if include this one need to include other two
+    - type - REQUIRED ~ options are plane, sphere, cube, star, custom, pin or blender_model
+    - shader - REQUIRED ~ options are color or texture. Texture is selected if you have a texture you want to apply to the model and color if you only have a color you want to apply to the model
+    - material - REQUIRED
+      - color - REQUIRED ~ color you want to set model to [red, green, blue]
+      - specular - REQUIRED ~ ???
+      - shininess - REQUIRED ~ ???
+    - texture - OPTIONAL ~ only need if set shader property above to texture
+      - url - REQUIRED ~ path to texture to map to model ex. "images/texture.jpg" ~ only jpg images are supported at this time
+      - scale - REQUIRED ~ ???
+    - center - REQUIRED ~ ???
+    - size - REQUIRED ~ ???
+    - rotate_x - OPTIONAL ~ in degrees - if include this one need to include other two
+    - rotate_y - OPTIONAL ~ in degrees - if include this one need to include other two
+    - rotate_z - OPTIONAL ~ in degrees - if include this one need to include other two
 4. light - REQUIRED
-  - ambient - REQUIRED ~ ???
-  - point-lights - REQUIRED ~ ???
-    - position - REQUIRED ~ ???
-    - color - REQUIRED ~ ???
+    - ambient - REQUIRED ~ ???
+    - point-lights - REQUIRED ~ ???
+      - position - REQUIRED ~ ???
+      - color - REQUIRED ~ ???
 
 this is where hosting instructions locally or working with launched version will go
 
