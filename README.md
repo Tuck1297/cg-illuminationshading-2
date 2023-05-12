@@ -66,9 +66,10 @@ Phong shading calculates shading at each point on the surface of an object by in
 
 ### Try out this project here: [Illumination Shading](https://tuck1297.github.io/cg-illuminationshading-2/)
 
-#### JSON environment instructions
+#### JSON environment outline
 
-If you want to develop your own virtual environment inside this project you will need to define the following properties in a Json file: 
+If you want to try developing your own 3D environment in this program, there are some JSON examples in the 'data' folder in this repository. Here is an explanation outlining the details and requirements of those JSON files. 
+
 - background - REQUIRED ~ color of background [Red, Green, Blue]
 - camera - REQUIRED
     - position - REQUIRED ~ [x, y, z]
@@ -83,7 +84,7 @@ If you want to develop your own virtual environment inside this project you will
       - shininess - REQUIRED ~ size and sharpness of specular light on the object surface. Integer value
     - texture - OPTIONAL ~ only need if set shader property above to texture
       - url - REQUIRED ~ path to texture to map to model ex. "images/texture.jpg" ~ only jpg images are supported at this time
-      - scale - REQUIRED ~ ???
+      - scale - REQUIRED ~ UV size mapping of texture to object [U,V]
     - center - REQUIRED ~ center of object [x, y, z]
     - size - REQUIRED ~ size of the object [width, height, depth]
     - rotate_x - OPTIONAL ~ in degrees - if include this one, need to include other two
@@ -95,7 +96,17 @@ If you want to develop your own virtual environment inside this project you will
       - position - REQUIRED ~ Position of light [x, y, z]
       - color - REQUIRED ~ Color of light [Red, Green, Blue]
 
-this is where hosting instructions locally or working with launched version will go
+---
+
+## Run locally
+
+To run locally you would need to do the following: 
+
+1. Clone and load this project into your Integrated development environment (IDE) 
+2. Navigate to the file directory that holds this project in your IDE
+3. Install project dependencies by typing the following into the terminal: ```npm install```
+4. Run the project by running your IDE's local server
+5. Navigate to your browser and type the following: ```http://localhost:5500/``` or change 5500 to whatever port your IDE is currently running the project on 
 
 ---
 
