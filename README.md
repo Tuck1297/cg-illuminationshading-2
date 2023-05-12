@@ -104,9 +104,8 @@ To run locally you would need to do the following:
 
 1. Clone and load this project into your Integrated development environment (IDE) 
 2. Navigate to the file directory that holds this project in your IDE
-3. Install project dependencies by typing the following into the terminal: ```npm install```
-4. Run the project by running your IDE's local server
-5. Navigate to your browser and type the following: ```http://localhost:5500/``` or change 5500 to whatever port your IDE is currently running the project on 
+3. Run the project by running your IDE's local server
+4. Navigate to your browser and type the following: ```http://localhost:5500/``` or change 5500 to whatever port your IDE is currently running the project on 
 
 ---
 
